@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace DL
 {
-    public class Class1
+    public class Conexion
     {
+        static public string Get()
+        {
+            string conexion = "";
+            return conexion;
+        }
     }
 }

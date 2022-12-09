@@ -8,10 +8,10 @@ namespace PL
 {
     public class Alumno
     {
+        //5 
         static public void Add()
         {
-            ML
-                .Alumno alumno = new ML.Alumno();
+            ML.Alumno alumno = new ML.Alumno();
 
             Console.WriteLine("Ingrese los datos del Alumno");
             Console.WriteLine("Ingrese el Nombre: ");
@@ -42,7 +42,7 @@ namespace PL
         }
         static public void GetAll()
         {
-            ML.Result result = new ML.Result();
+            ML.Result result = BL.Alumno.GetAllEF();
 
             //for ----- Determinado numero de repeticiones
             //while --- Condicion de salida //Solo se ejecuta si la condicion es verdadera
