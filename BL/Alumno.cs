@@ -5,10 +5,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace BL
 {
-    public class Alumno
+    public class Alumno   //15 metodos LINQ
     {
         static public ML.Result Add(ML.Alumno alumno)
         {
@@ -218,7 +219,7 @@ namespace BL
             {
                 using (DL_EF.JBecerraProgramacionNCapasDiciembreEntities context = new DL_EF.JBecerraProgramacionNCapasDiciembreEntities())
                 {
-                    var query = context.AlumnoAdd(alumno.Nombre, alumno.ApellidoPaterno, alumno.ApellidoMaterno, alumno.Grado, alumno.FechaNacimiento);
+                    var query = context.AlumnoAdd(alumno.Nombre, alumno.ApellidoPaterno, alumno.ApellidoMaterno, alumno.Grado, alumno.FechaNacimiento) ;
 
                     if (query > 0)
                     {
@@ -252,15 +253,18 @@ namespace BL
                     if (query != null)
                     {
                         result.Objects = new List<object>();
+                        ML.Alumno alumno = new ML.Alumno();
                         foreach (var objAlumno in query)
                         {
-                            ML.Alumno alumno = new ML.Alumno();
+
                             alumno.IdAlumno = objAlumno.IdAlumno;
                             alumno.Nombre = objAlumno.Nombre;
                             alumno.ApellidoPaterno = objAlumno.ApellidoPaterno;
                             alumno.ApellidoMaterno = objAlumno.ApellidoMaterno;
                             alumno.Grado = byte.Parse(objAlumno.Grado);
-                            alumno.FechaNacimiento = objAlumno.FechaNacimiento;
+                            alumno.FechaNacimiento = objAlumno.FechaNacimiento.ToString("dd-M-yy");
+                            alumno.Semestre = new ML.Semestre();
+                            //alumno.Semestre.IdSemestre = objAlumno.IdSemestre;
 
                             result.Objects.Add(alumno);
                         }
@@ -279,6 +283,90 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+        static public ML.Result GetByIdEF(int IdAlumno)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+
+                using (DL_EF.JBecerraProgramacionNCapasDiciembreEntities context = new DL_EF.JBecerraProgramacionNCapasDiciembreEntities())
+                {
+                    var objAlumno = context.AlumnoGetById(IdAlumno).Single();
+
+
+                    if (objAlumno != null)
+                    {
+
+                        ML.Alumno alumno = new ML.Alumno();
+                        alumno.IdAlumno = objAlumno.IdAlumno;
+                        alumno.Nombre = objAlumno.Nombre;
+                        alumno.ApellidoPaterno = objAlumno.ApellidoPaterno;
+                        alumno.ApellidoMaterno = objAlumno.ApellidoMaterno;
+                        alumno.Grado = byte.Parse(objAlumno.Grado);
+                        alumno.FechaNacimiento = objAlumno.FechaNacimiento.ToString();
+
+                        result.Object = alumno;
+
+                        result.Correct = true;
+                    }
+
+                    else
+                    {
+                        result.Correct = false;
+                        result.ErrorMessage = "No contiene registros la tabla Alumno";
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
+            }
+            return result;
+        }
+
+        static public ML.Result GetAllLINQ()
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.JBecerraProgramacionNCapasDiciembreEntities context = new DL_EF.JBecerraProgramacionNCapasDiciembreEntities())  
+                {
+                    var query = (from alumnos in context.Alumnoes where alumnos.IdAlumno == 6 select alumnos).Single();
+                }
+            }
+            catch(Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+                result.Correct = false;
+                result.Ex = ex;
+            }
+            return result;
+        }
+        static public ML.Result AddLINQ(ML.Alumno alumno)
+        {
+            ML.Result result = new ML.Result();
+            try
+            {
+                using (DL_EF.JBecerraProgramacionNCapasDiciembreEntities context = new DL_EF.JBecerraProgramacionNCapasDiciembreEntities())
+                {
+                    DL_EF.Alumno alumnoLINQ = new DL_EF.Alumno();
+                    alumnoLINQ.Nombre = alumno.Nombre;
+                    alumnoLINQ.FechaNacimiento = DateTime.ParseExact(alumno.FechaNacimiento,"dd-MM-yyyy",CultureInfo.InvariantCulture); // MM/dd/yyyy dd-MM-yyy
+
+           
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ErrorMessage = ex.Message;
+                result.Correct = false;
                 result.Ex = ex;
             }
             return result;

@@ -76,6 +76,9 @@
       <DependentUpon>JBecerraProgramacionNCapasFramework.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Semestre.cs">
+      <DependentUpon>JBecerraProgramacionNCapasFramework.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="JBecerraProgramacionNCapasFramework.edmx">

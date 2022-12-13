@@ -28,6 +28,7 @@ namespace DL_EF
         }
     
         public virtual DbSet<Alumno> Alumnoes { get; set; }
+        public virtual DbSet<Semestre> Semestres { get; set; }
     
         public virtual ObjectResult<AlumnoGetById_Result> AlumnoGetById(Nullable<int> idAlumno)
         {
@@ -38,7 +39,12 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AlumnoGetById_Result>("AlumnoGetById", idAlumnoParameter);
         }
     
-        public virtual int AlumnoAdd(string nombre, string apellidoPaterno, string apellidoMaterno, Nullable<byte> grado, Nullable<System.DateTime> fechaNacimiento)
+        public virtual ObjectResult<AlumnoGetAll_Result> AlumnoGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AlumnoGetAll_Result>("AlumnoGetAll");
+        }
+    
+        public virtual int AlumnoAdd(string nombre, string apellidoPaterno, string apellidoMaterno, Nullable<byte> grado, string fechaNacimiento)
         {
             var nombreParameter = nombre != null ?
                 new ObjectParameter("Nombre", nombre) :
@@ -56,16 +62,11 @@ namespace DL_EF
                 new ObjectParameter("Grado", grado) :
                 new ObjectParameter("Grado", typeof(byte));
     
-            var fechaNacimientoParameter = fechaNacimiento.HasValue ?
+            var fechaNacimientoParameter = fechaNacimiento != null ?
                 new ObjectParameter("FechaNacimiento", fechaNacimiento) :
-                new ObjectParameter("FechaNacimiento", typeof(System.DateTime));
+                new ObjectParameter("FechaNacimiento", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AlumnoAdd", nombreParameter, apellidoPaternoParameter, apellidoMaternoParameter, gradoParameter, fechaNacimientoParameter);
-        }
-    
-        public virtual ObjectResult<AlumnoGetAll_Result> AlumnoGetAll()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AlumnoGetAll_Result>("AlumnoGetAll");
         }
     }
 }

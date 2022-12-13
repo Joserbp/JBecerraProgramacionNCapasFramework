@@ -23,7 +23,9 @@ namespace PL
             Console.WriteLine("Ingrese el Grupo: ");
             alumno.Grado = byte.Parse(Console.ReadLine());
             Console.WriteLine("Ingrese la Fecha de Nacimiento: ");
-            alumno.FechaNacimiento = DateTime.Parse(Console.ReadLine());
+            alumno.FechaNacimiento = Console.ReadLine();
+            Console.WriteLine("Ingrese el Id del Semestre: ");
+            alumno.Semestre = new ML.Semestre();
 
             //ML.Result result = BL.Alumno.Add(alumno);
             //ML.Result result = BL.Alumno.AddSP(alumno);
@@ -44,11 +46,6 @@ namespace PL
         {
             ML.Result result = BL.Alumno.GetAllEF();
 
-            //for ----- Determinado numero de repeticiones
-            //while --- Condicion de salida //Solo se ejecuta si la condicion es verdadera
-            //do while --- //Siempre 1 vez
-            //foreach -- //Recorrer la totalidad de un arreglo 
-
             foreach (ML.Alumno alumno in result.Objects)
             {
                 Console.WriteLine("El IdAlumno del alumno es: " + alumno.IdAlumno);
@@ -56,6 +53,8 @@ namespace PL
                 Console.WriteLine("El ApellidoPaterno del alumno es: " + alumno.ApellidoPaterno);
                 Console.WriteLine("El ApellidoMaterno del alumno es: " + alumno.ApellidoMaterno);
                 Console.WriteLine("El Grado del alumno es: " + alumno.Grado);
+                Console.WriteLine("La fecha de Nacimiento es " + alumno.FechaNacimiento);
+                Console.WriteLine("El id del semestre del alumno es: " + alumno.Semestre.IdSemestre);
                 Console.WriteLine("---------------------------------------------");
             }
         }
@@ -64,7 +63,7 @@ namespace PL
 
             Console.WriteLine("Ingrese el Id del Alumno: ");
             int IdAlumno = int.Parse(Console.ReadLine());
-            ML.Result result = new ML.Result();
+            ML.Result result = BL.Alumno.GetByIdEF(IdAlumno);
 
             if (result.Correct)
             {

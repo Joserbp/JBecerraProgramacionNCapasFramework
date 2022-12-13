@@ -12,16 +12,18 @@ namespace DL_EF
     using System;
     using System.Collections.Generic;
     
-    public partial class Alumno
+    public partial class Semestre
     {
-        public int IdAlumno { get; set; }
-        public string Nombre { get; set; }
-        public string ApellidoPaterno { get; set; }
-        public string ApellidoMaterno { get; set; }
-        public string Grado { get; set; }
-        public System.DateTime FechaNacimiento { get; set; }
-        public Nullable<int> IdSemestre { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Semestre()
+        {
+            this.Alumnoes = new HashSet<Alumno>();
+        }
     
-        public virtual Semestre Semestre { get; set; }
+        public int IdSemestre { get; set; }
+        public string Nombre { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Alumno> Alumnoes { get; set; }
     }
 }

@@ -6,6 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="aac36399f8954e50b087291d5d7bc8c1" Name="Diagram1">
         <EntityTypeShape EntityType="JBecerraProgramacionNCapasDiciembreModel.Alumno" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JBecerraProgramacionNCapasDiciembreModel.Semestre" Width="1.5" PointX="0.75" PointY="4.25" />
+        <AssociationConnector Association="JBecerraProgramacionNCapasDiciembreModel.FK__Alumno__IdSemest__182C9B23" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

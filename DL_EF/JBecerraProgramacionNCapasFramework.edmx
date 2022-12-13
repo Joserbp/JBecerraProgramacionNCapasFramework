@@ -15,13 +15,33 @@
           <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" />
           <Property Name="Grado" Type="varchar" MaxLength="50" />
           <Property Name="FechaNacimiento" Type="date" Nullable="false" />
+          <Property Name="IdSemestre" Type="int" />
         </EntityType>
+        <EntityType Name="Semestre">
+          <Key>
+            <PropertyRef Name="IdSemestre" />
+          </Key>
+          <Property Name="IdSemestre" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__Alumno__IdSemest__182C9B23">
+          <End Role="Semestre" Type="Self.Semestre" Multiplicity="0..1" />
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semestre">
+              <PropertyRef Name="IdSemestre" />
+            </Principal>
+            <Dependent Role="Alumno">
+              <PropertyRef Name="IdSemestre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="AlumnoAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
           <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
           <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
           <Parameter Name="Grado" Type="tinyint" Mode="In" />
-          <Parameter Name="FechaNacimiento" Type="date" Mode="In" />
+          <Parameter Name="FechaNacimiento" Type="varchar" Mode="In" />
         </Function>
         <Function Name="AlumnoGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="AlumnoGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -29,6 +49,11 @@
         </Function>
         <EntityContainer Name="JBecerraProgramacionNCapasDiciembreModelStoreContainer">
           <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Semestre" EntityType="Self.Semestre" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Alumno__IdSemest__182C9B23" Association="Self.FK__Alumno__IdSemest__182C9B23">
+            <End Role="Semestre" EntitySet="Semestre" />
+            <End Role="Alumno" EntitySet="Alumno" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -44,20 +69,27 @@
           <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Grado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdSemestre" Type="Int32" />
+          <NavigationProperty Name="Semestre" Relationship="JBecerraProgramacionNCapasDiciembreModel.FK__Alumno__IdSemest__182C9B23" FromRole="Alumno" ToRole="Semestre" />
         </EntityType>
         <EntityContainer Name="JBecerraProgramacionNCapasDiciembreEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Alumnoes" EntityType="Self.Alumno" />
           <FunctionImport Name="AlumnoGetById" ReturnType="Collection(JBecerraProgramacionNCapasDiciembreModel.AlumnoGetById_Result)">
           <Parameter Name="IdAlumno" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="AlumnoGetAll" ReturnType="Collection(JBecerraProgramacionNCapasDiciembreModel.AlumnoGetAll_Result)" />
+          <EntitySet Name="Semestres" EntityType="JBecerraProgramacionNCapasDiciembreModel.Semestre" />
+          <AssociationSet Name="FK__Alumno__IdSemest__182C9B23" Association="JBecerraProgramacionNCapasDiciembreModel.FK__Alumno__IdSemest__182C9B23">
+            <End Role="Semestre" EntitySet="Semestres" />
+            <End Role="Alumno" EntitySet="Alumnoes" />
+          </AssociationSet>
           <FunctionImport Name="AlumnoAdd">
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
             <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
             <Parameter Name="Grado" Mode="In" Type="Byte" />
-            <Parameter Name="FechaNacimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="FechaNacimiento" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="AlumnoGetAll" ReturnType="Collection(JBecerraProgramacionNCapasDiciembreModel.AlumnoGetAll_Result)" />
         </EntityContainer>
         <ComplexType Name="AlumnoGetById_Result">
           <Property Type="Int32" Name="IdAlumno" Nullable="false" />
@@ -75,6 +107,26 @@
           <Property Type="String" Name="Grado" Nullable="true" MaxLength="50" />
           <Property Type="DateTime" Name="FechaNacimiento" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Semestre">
+          <Key>
+            <PropertyRef Name="IdSemestre" />
+          </Key>
+          <Property Name="IdSemestre" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Alumnoes" Relationship="JBecerraProgramacionNCapasDiciembreModel.FK__Alumno__IdSemest__182C9B23" FromRole="Semestre" ToRole="Alumno" />
+        </EntityType>
+        <Association Name="FK__Alumno__IdSemest__182C9B23">
+          <End Type="JBecerraProgramacionNCapasDiciembreModel.Semestre" Role="Semestre" Multiplicity="0..1" />
+          <End Type="JBecerraProgramacionNCapasDiciembreModel.Alumno" Role="Alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Semestre">
+              <PropertyRef Name="IdSemestre" />
+            </Principal>
+            <Dependent Role="Alumno">
+              <PropertyRef Name="IdSemestre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -84,6 +136,7 @@
           <EntitySetMapping Name="Alumnoes">
             <EntityTypeMapping TypeName="JBecerraProgramacionNCapasDiciembreModel.Alumno">
               <MappingFragment StoreEntitySet="Alumno">
+                <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
                 <ScalarProperty Name="IdAlumno" ColumnName="IdAlumno" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
@@ -105,7 +158,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="AlumnoAdd" FunctionName="JBecerraProgramacionNCapasDiciembreModel.Store.AlumnoAdd" />
           <FunctionImportMapping FunctionImportName="AlumnoGetAll" FunctionName="JBecerraProgramacionNCapasDiciembreModel.Store.AlumnoGetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="JBecerraProgramacionNCapasDiciembreModel.AlumnoGetAll_Result">
@@ -118,6 +170,15 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Semestres">
+            <EntityTypeMapping TypeName="JBecerraProgramacionNCapasDiciembreModel.Semestre">
+              <MappingFragment StoreEntitySet="Semestre">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdSemestre" ColumnName="IdSemestre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AlumnoAdd" FunctionName="JBecerraProgramacionNCapasDiciembreModel.Store.AlumnoAdd" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
