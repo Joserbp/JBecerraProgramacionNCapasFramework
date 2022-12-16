@@ -39,11 +39,6 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AlumnoGetById_Result>("AlumnoGetById", idAlumnoParameter);
         }
     
-        public virtual ObjectResult<AlumnoGetAll_Result> AlumnoGetAll()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AlumnoGetAll_Result>("AlumnoGetAll");
-        }
-    
         public virtual int AlumnoAdd(string nombre, string apellidoPaterno, string apellidoMaterno, Nullable<byte> grado, string fechaNacimiento)
         {
             var nombreParameter = nombre != null ?
@@ -67,6 +62,11 @@ namespace DL_EF
                 new ObjectParameter("FechaNacimiento", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AlumnoAdd", nombreParameter, apellidoPaternoParameter, apellidoMaternoParameter, gradoParameter, fechaNacimientoParameter);
+        }
+    
+        public virtual ObjectResult<AlumnoGetAll_Result> AlumnoGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AlumnoGetAll_Result>("AlumnoGetAll");
         }
     }
 }

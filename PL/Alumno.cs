@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,6 +47,10 @@ namespace PL
         {
             ML.Result result = BL.Alumno.GetAllEF();
 
+            ML.Direccion direccion = new Direccion();
+
+            
+
             foreach (ML.Alumno alumno in result.Objects)
             {
                 Console.WriteLine("El IdAlumno del alumno es: " + alumno.IdAlumno);
@@ -55,6 +60,7 @@ namespace PL
                 Console.WriteLine("El Grado del alumno es: " + alumno.Grado);
                 Console.WriteLine("La fecha de Nacimiento es " + alumno.FechaNacimiento);
                 Console.WriteLine("El id del semestre del alumno es: " + alumno.Semestre.IdSemestre);
+                Console.WriteLine(alumno.Direccion);
                 Console.WriteLine("---------------------------------------------");
             }
         }

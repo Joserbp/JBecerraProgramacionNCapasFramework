@@ -253,18 +253,20 @@ namespace BL
                     if (query != null)
                     {
                         result.Objects = new List<object>();
-                        ML.Alumno alumno = new ML.Alumno();
+                        
                         foreach (var objAlumno in query)
                         {
-
+                            ML.Alumno alumno = new ML.Alumno();
                             alumno.IdAlumno = objAlumno.IdAlumno;
-                            alumno.Nombre = objAlumno.Nombre;
+                            alumno.Nombre = objAlumno.NombreAlumno; 
                             alumno.ApellidoPaterno = objAlumno.ApellidoPaterno;
                             alumno.ApellidoMaterno = objAlumno.ApellidoMaterno;
                             alumno.Grado = byte.Parse(objAlumno.Grado);
                             alumno.FechaNacimiento = objAlumno.FechaNacimiento.ToString("dd-M-yy");
                             alumno.Semestre = new ML.Semestre();
-                            //alumno.Semestre.IdSemestre = objAlumno.IdSemestre;
+                            alumno.Semestre.IdSemestre = objAlumno.IdSemestre.Value;
+                            alumno.Semestre.Nombre = objAlumno.NombreSemestre;
+
 
                             result.Objects.Add(alumno);
                         }
@@ -305,7 +307,7 @@ namespace BL
                         alumno.IdAlumno = objAlumno.IdAlumno;
                         alumno.Nombre = objAlumno.Nombre;
                         alumno.ApellidoPaterno = objAlumno.ApellidoPaterno;
-                        alumno.ApellidoMaterno = objAlumno.ApellidoMaterno;
+                        alumno.ApellidoMaterno = objAlumno.ApellidoMaterno; 
                         alumno.Grado = byte.Parse(objAlumno.Grado);
                         alumno.FechaNacimiento = objAlumno.FechaNacimiento.ToString();
 
@@ -358,9 +360,16 @@ namespace BL
                 {
                     DL_EF.Alumno alumnoLINQ = new DL_EF.Alumno();
                     alumnoLINQ.Nombre = alumno.Nombre;
+                    alumnoLINQ.ApellidoPaterno = alumno.ApellidoPaterno;
+                    alumnoLINQ.ApellidoMaterno = alumno.ApellidoMaterno;
+                    alumnoLINQ.Grado = alumno.Grado.ToString();
                     alumnoLINQ.FechaNacimiento = DateTime.ParseExact(alumno.FechaNacimiento,"dd-MM-yyyy",CultureInfo.InvariantCulture); // MM/dd/yyyy dd-MM-yyy
+                    alumnoLINQ.IdSemestre = alumno.Semestre.IdSemestre;
 
-           
+                    context.Alumnoes.Add(alumnoLINQ);
+                    context.SaveChanges();
+
+                    result.Correct = true;
                 }
             }
             catch (Exception ex)
