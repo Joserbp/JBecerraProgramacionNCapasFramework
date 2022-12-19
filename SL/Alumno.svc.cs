@@ -24,10 +24,8 @@ namespace SL
         public SL.Result GetAll()
         {
             ML.Result result = BL.Alumno.GetAllEF();
-            //return result;
-
+            // return result;
             return new SL.Result { Correct = result.Correct, ErrorMessage = result.ErrorMessage, Ex = result.Ex, Object = result.Object, Objects = result.Objects };
-
         }
     }
 }

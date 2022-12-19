@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ML
 {
+    [DataContract]
     public class Result
     {
         public bool Correct { get; set; }

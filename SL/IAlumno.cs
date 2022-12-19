@@ -9,10 +9,10 @@ namespace SL
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IAlumno" in both code and config file together.
     [ServiceContract]
-    public interface IAlumno
+    public interface IAlumno   //Contrato 
     {
         [OperationContract]
-        ML.Result Add(ML.Alumno alumno);
+        ML.Result Add(ML.Alumno alumno);  //Firma de metodos
 
         [OperationContract]
         [ServiceKnownType(typeof(ML.Alumno))]
